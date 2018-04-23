@@ -52,15 +52,15 @@ var app = app || {};
   // TODO complete numWordsByAuthor
   Article.numWordsByAuthor = () => {
 
-    Article.allAuthors().map( author => {
-      let obj = {
+    return Article.allAuthors().map( author => {
+      return {
         author: author,
-        wordCount: Article.all.filter(x => x.author === author).map(x => x.body.split(' ').length).reduce((acc, cv) => acc + cv)
-        // map over new array of articles to get word count of each article
-        // reduce article words counts to return total word count for that article
-      };
-      return obj;
-    })
+        numWords: Article.all.filter(x => x.author === author).map(x => x.body.split(' ').length).reduce((acc, cv) => acc + cv)
+      // map over new array of articles to get word count of each article
+      // reduce article words counts to return total word count for that article
+      }
+    }
+    )
   }
 
   Article.truncateTable = callback => {
