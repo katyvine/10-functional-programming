@@ -40,17 +40,28 @@ var app = app || {};
   };
 
   Article.numWordsAll = () => {
-    return Article.all.map().reduce()
+    return Article.all.map(x => x.body.split(' ').length).reduce( (acc, cv) => acc + cv);
   };
 
   Article.allAuthors = () => {
-    return Article.all.map().reduce();
+    // return Article.all.map( x => x.author_id).filter( (value, index, array) => array.indexOf(value) === index); Counts unique authors
+    return Article.all.map(x => x.author).filter((value, index, array) => array.indexOf(value) === index);
+
   };
 
   // TODO complete numWordsByAuthor
   Article.numWordsByAuthor = () => {
-    return Article.allAuthors().map(author => {})
-  };
+
+    Article.allAuthors().map( author => {
+      let obj = {
+        author: author,
+        wordCount: Article.all.filter(x => x.author === author).map(x => x.body.split(' ').length).reduce((acc, cv) => acc + cv)
+        // map over new array of articles to get word count of each article
+        // reduce article words counts to return total word count for that article
+      };
+      return obj;
+    })
+  }
 
   Article.truncateTable = callback => {
     $.ajax({
@@ -95,5 +106,7 @@ var app = app || {};
       .then(console.log)
       .then(callback);
   };
+
   module.Article = Article;
+
 }) (app);
